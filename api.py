@@ -89,7 +89,7 @@ if __name__ == '__main__':
     print 'testing...'
     print generate_pano_url((-0.0004797, 51.4769351))
 
-    db = me.connect('streetview')
+    db = me.connect('test')
     for l in [(-0.0004797, 51.4769351), 'downtown chicago', 'Golden Gate Bridge', 'Big Ben', 'Empire State Building', 'White House']:
         p = Pano.new_pano(l, fov=120)
         p.show_image()

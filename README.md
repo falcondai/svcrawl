@@ -15,8 +15,8 @@ features
 dependencies
 ------------
 
-- You might have to install `libjpeg-dev` on Ubuntu for `PIL` to work:
-[http://stackoverflow.com/questions/8915296/python-image-library-fails-with-message-decoder-jpeg-not-available-pil]
+- You might have to install `libjpeg-dev` and `python-dev` on Ubuntu for `PIL` to build and work:
+(http://stackoverflow.com/questions/8915296/python-image-library-fails-with-message-decoder-jpeg-not-available-pil). For details, check out: (http://codeinthehole.com/writing/how-to-install-pil-on-64-bit-ubuntu-1204/)
 
 - `requirements.txt` contians python libraries that you can install by `$ pip install -r requirements.txt`
 
