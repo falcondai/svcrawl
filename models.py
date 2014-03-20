@@ -15,13 +15,16 @@ class Pano(me.Document):
     heading = me.FloatField(default=None)
     fov = me.FloatField(default=90)
     pitch = me.FloatField(default=0)
-    size = me.ListField(me.IntField(), default=(640, 640))
     pano_id = me.StringField()
     image = me.ImageField()
 
     meta = {
         'indexes': ['pano_id']
     }
+
+    @property
+    def size(self):
+        return self.image.size
 
     @property
     def url(self):
@@ -37,7 +40,10 @@ class Pano(me.Document):
 
     @property
     def PIL_image(self):
-        return Image.open(cStringIO.StringIO(self.image.read()))
+        if hasattr(self, '_PIL_image'):
+            return self._PIL_image
+        self._PIL_image = Image.open(cStringIO.StringIO(self.image.read()))
+        return self._PIL_image
 
     @property
     def has_image(self):
@@ -48,7 +54,7 @@ class Pano(me.Document):
         return self.PIL_image.show()
 
     def __repr__(self):
-        return '<Pano: location=%r, longlat=%r, image_md5=%r>' % (self.location, self.longlat, self.image_md5)
+        return '<Pano: location=%r, longlat=%r, image_md5=%r>' % (self.location, self.longlat['coordinates'], self.image_md5)
 
     @staticmethod
     def new_pano(location=None, heading=None, fov=90, pitch=0, size=(640, 640), pano_id=None, key=None):
