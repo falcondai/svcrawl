@@ -46,8 +46,8 @@ if __name__ == '__main__':
 
                 for heading in [0, 120, 240]:
                     params.append((floc, heading))
-
-                    if len(params) == args.batch_size:
+                    l = len(params)
+                    if l >= args.batch_size:
                         # build URL
                         urls = [generate_pano_url(floc, fov=120, heading=heading, key=args.key) for floc, heading in params]
                         if not args.dry_run:
@@ -69,7 +69,7 @@ if __name__ == '__main__':
                             for url in urls:
                                 print url
 
-                        params = params[args.batch_size:]
+                        params = params[l:]
                 
                 longlats.add(loc)
 
