@@ -38,6 +38,7 @@ if __name__ == '__main__':
         r = csv.DictWriter(f, ['longitude', 'latitude', 'heading', 'filename'])
         r.writeheader()
         for i, pano in enumerate(Pano.objects):
+            # only export valid images
             if pano.has_image and pano.image.format == 'JPEG':
                 filename = '%d.jpg' % i
                 with open(os.path.join(pano_dir, filename), 'wb') as img_fp:

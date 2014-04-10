@@ -25,6 +25,8 @@ if __name__ == '__main__':
     if not args.dry_run:
         me.connect('', host=args.db)
 
+    exp_backoff = 1.
+    has_error = False
     with open(args.csv_path) as f:
         r = csv.DictReader(f)
         longlats = set()
@@ -51,6 +53,7 @@ if __name__ == '__main__':
                         # build URL
                         urls = [generate_pano_url(floc, fov=120, heading=heading, key=args.key) for floc, heading in params]
                         if not args.dry_run:
+                            has_error = False
                             reqs = (grequests.get(url) for url in urls)
                             # send requests and block
                             reps = grequests.map(reqs)
@@ -63,13 +66,20 @@ if __name__ == '__main__':
                                 else:
                                     print 'error getting %r from %s' % (param, rep.url)
                                     params.append(param)
-
+                                    has_error = True
+                            # exponential backoff
+                            if has_error:
+                                exp_backoff *= 2
+                            else:
+                                exp_backoff = 0
                         else:
                             print 'batch requests send to:'
                             for url in urls:
                                 print url
 
                         params = params[l:]
+                        time.sleep(exp_backoff)
+                        print 'backoff: %fs' % exp_backoff
                 
                 longlats.add(loc)
 
