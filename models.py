@@ -53,8 +53,8 @@ class Pano(me.Document):
     def show_image(self):
         return self.PIL_image.show()
 
-    def __repr__(self):
-        return '<Pano: location=%r, longlat=%r, image_md5=%r>' % (self.location, self.longlat['coordinates'], self.image_md5)
+    def __unicode__(self):
+        return 'location=%r, longlat=%r, image_md5=%r' % (self.location, self.longlat['coordinates'], self.image_md5)
 
     @staticmethod
     def new_pano(location=None, heading=None, fov=90, pitch=0, size=(640, 640), pano_id=None, key=None):
