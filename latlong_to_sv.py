@@ -73,4 +73,4 @@ if __name__ == '__main__':
                 
                 longlats.add(loc)
 
-        print '%d records (%d unique coordinates) done in %fs' % (i, len(longlats), time.time() - t0)
+        print '%d records (%d unique coordinates) done in %fs' % (i+1, len(longlats), time.time() - t0)
